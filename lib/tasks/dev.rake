@@ -3,7 +3,7 @@ namespace :dev do
   task setup: :environment do
     puts "Resetando o banco de dados..."
 
-    # %x(rails db:drop db:create db:migrate)
+    %x(rails db:drop db:create db:migrate)
 
     puts "Cadastrando os tipos de contato..."
 
@@ -44,5 +44,16 @@ namespace :dev do
 
     puts "Telefones cadastrados com sucesso!"
 
+    puts "Cadastrando os endereços.."
+
+    Contact.all.each do |contact|
+      adress = Address.create(
+        street: Faker::Address.street_address,
+        city: Faker::Address.city,
+        contact: contact
+      )
+    end
+
+    puts "Endereços cadastrados com sucesso!"
    end
 end
